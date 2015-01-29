@@ -90,6 +90,16 @@ form.filterForm {
     float:right
         
 }
+#main{
+    margin-top: 100px
+}
+#genres{
+    width: 160px;
+}
+li{
+    line-height: 1.8;
+    width: 150px;
+}
 
 #copyright_wrapper {
     float: left;
