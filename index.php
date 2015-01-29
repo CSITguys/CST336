@@ -41,6 +41,7 @@
                         <option value="rating">G</option>
                         <option value="rating">PG</option>
                         <option value="rating">PG-13</option>
+                        <option value="rating">R</option>
                     </select>
                     <select name="year">
                         <option value="2015">2015</option>
