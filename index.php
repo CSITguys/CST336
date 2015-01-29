@@ -1,5 +1,29 @@
 <?php
     require "connections.php";
+    function getReleaseDate(){
+        global $dbconn;
+        
+        $sql = "SELECT DISTINCT release_date
+                FROM movie_table
+                ORDER BY release_date DESC";
+        
+        $stmt = $dbconn -> prepare($sql);
+        $stmt -> execute();
+        return $stmt->fetchAll();
+    }
+        function getRatings(){
+        global $dbconn;
+        
+        $sql = "SELECT DISTINCT rating
+                FROM movie_table
+                ORDER BY rating ASC";
+        
+        $stmt = $dbconn -> prepare($sql);
+        $stmt -> execute();
+        return $stmt->fetchAll();
+    }
+    
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,6 +47,10 @@
 
 	</head>
     <body>
+        <?php 
+            $dates = getReleaseDate();
+            $ratings = getRatings();
+        ?>
         <div id="header">
             <div class="logo">
                 <a class="logo" href="./">
@@ -38,14 +66,18 @@
                         <option value="location_id">location C</option>
                     </select>
                     <select name="rating">
-                        <option value="rating">G</option>
-                        <option value="rating">PG</option>
-                        <option value="rating">PG-13</option>
-                        <option value="rating">R</option>
+                        <?php
+                            foreach($ratings as $rating){
+                                echo '<option value="' . $rating['rating'] . '">' . $rating['rating'] . '</option>';
+                            }
+                        ?>
                     </select>
                     <select name="year">
-                        <option value="2015">2015</option>
-                        <option value="2014">2014</option>
+                        <?php
+                            foreach($dates as $date){
+                                echo '<option value="' . $date['release_date'] . '">' . $date['release_date'] . '</option>';
+                            }
+                        ?>
                     </select>
                 </form>
                 <form class="searchForm" >
@@ -56,6 +88,16 @@
 
             </div>
         </div>
-
+        <div id></div>
+        <div id="footer">
+            <div id="copyright_wrapper">
+                <p>site design / logo © 2015  CSIT GUYS</p>
+                <span class="clear"></span>
+            </div>
+            <div id="footer_img_wrapper">
+                <img src="images/inverse.png" height="30px" width="100px">
+                <span class="clear"></span>
+            </div>
+        </div>
     </body>
 </html>
