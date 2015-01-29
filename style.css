@@ -75,3 +75,24 @@ form.filterForm {
     margin-left: 0%
 
 }
+#footer {
+    background-color: #f02323;
+    margin: 0;
+    color: #FFF;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+#footer_img_wrapper {
+    margin-right: 10px;
+    margin-top: 3px;
+    float:right
+        
+}
+
+#copyright_wrapper {
+    float: left;
+    height: 30px;
+    margin-left: 10px;
+}
