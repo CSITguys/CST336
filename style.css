@@ -1,7 +1,11 @@
+html{
+    height: 100%
+}
 body{
     margin: 0px;
     min-width: 700px;
-    overflow: scroll
+    overflow: scroll;
+    height: inherit
 }
 #header {
     border-bottom:solid 2px #f02323;
@@ -91,14 +95,20 @@ form.filterForm {
         
 }
 #main{
-    margin-top: 100px
+    margin-top: 65px;
+    height: inherit
 }
 #genres{
     width: 160px;
+    padding-top: 60px;
+    height: inherit;
+    border-right: thin solid pink;
 }
 li{
-    line-height: 1.8;
+    line-height: 1.9;
     width: 150px;
+    list-style-type: none;
+    
 }
 
 #copyright_wrapper {
