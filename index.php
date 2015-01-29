@@ -11,7 +11,7 @@
         $stmt -> execute();
         return $stmt->fetchAll();
     }
-        function getRatings(){
+    function getRatings(){
         global $dbconn;
         
         $sql = "SELECT DISTINCT rating
@@ -22,7 +22,19 @@
         $stmt -> execute();
         return $stmt->fetchAll();
     }
-    
+    function getGenres(){
+        global $dbconn;
+        
+        $sql = "SELECT movie_category, 
+                COUNT(*) AS amount
+                FROM movie_table
+                GROUP BY movie_category
+                ORDER BY amount DESC";
+        
+        $stmt = $dbconn -> prepare($sql);
+        $stmt -> execute();
+        return $stmt->fetchAll();
+    }
 
 ?>
 <!DOCTYPE html>
@@ -50,6 +62,7 @@
         <?php 
             $dates = getReleaseDate();
             $ratings = getRatings();
+            $genres = getGenres();
         ?>
         <div id="header">
             <div class="logo">
@@ -66,18 +79,11 @@
                         <option value="location_id">location C</option>
                     </select>
                     <select name="rating">
-<<<<<<< HEAD
-                        <option value="rating">G</option>
-                        <option value="rating">PG</option>
-                        <option value="rating">PG-13</option>
-                        <option value="rating">R</option>
-=======
                         <?php
                             foreach($ratings as $rating){
                                 echo '<option value="' . $rating['rating'] . '">' . $rating['rating'] . '</option>';
                             }
                         ?>
->>>>>>> 48bd739f0cb6ecc3ba4299bff2951cdf3e7d4a1e
                     </select>
                     <select name="year">
                         <?php
@@ -94,8 +100,19 @@
                 </form>
 
             </div>
+            <span class="clear"></span>
         </div>
-        <div id></div>
+        <div id=main>
+            <div id="genres">
+                <ul>
+                <?php
+                    foreach($genres as $genre){
+                        echo '<li>' . $genre['movie_category'] . ' (' . $genre['amount'] . ')</li>';
+                    }
+                ?>
+                </ul>
+            </div>
+        </div>
         <div id="footer">
             <div id="copyright_wrapper">
                 <p>site design / logo © 2015  CSIT GUYS</p>
