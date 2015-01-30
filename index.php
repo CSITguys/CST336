@@ -2,55 +2,55 @@
     require "connections.php";
     function getReleaseDate(){
         global $dbconn;
-        
+
         $sql = "SELECT DISTINCT release_date
                 FROM movie_table
                 ORDER BY release_date DESC";
-        
+
         $stmt = $dbconn -> prepare($sql);
         $stmt -> execute();
         return $stmt->fetchAll();
     }
     function getRatings(){
         global $dbconn;
-        
+
         $sql = "SELECT DISTINCT rating
                 FROM movie_table
                 ORDER BY rating ASC";
-        
+
         $stmt = $dbconn -> prepare($sql);
         $stmt -> execute();
         return $stmt->fetchAll();
     }
     function getGenres(){
         global $dbconn;
-        
-        $sql = "SELECT movie_category, 
+
+        $sql = "SELECT movie_category,
                 COUNT(*) AS amount
                 FROM movie_table
                 GROUP BY movie_category
                 ORDER BY amount DESC";
-        
+
         $stmt = $dbconn -> prepare($sql);
         $stmt -> execute();
         return $stmt->fetchAll();
     }
     function getLocations(){
         global $dbconn;
-        
+
         $sql = "SELECT name, locationId
                 FROM locations
                 ORDER BY name";
         $stmt = $dbconn -> prepare($sql);
         $stmt -> execute();
-        return $stmt->fetchAll();   
+        return $stmt->fetchAll();
     }
     $searchResults = "";
     if(isset($_GET['searchBar'])){
         $searchinput = $_GET['searchBar'];
         $sql = "SELECT *
                 FROM movie_table
-                WHERE movie_title 
+                WHERE movie_title
                 LIKE :search";
         $stmt = $dbconn -> prepare($sql);
         $stmt -> execute(array(':search'=>('%'. $searchinput . '%')));
@@ -81,7 +81,7 @@
 
 	</head>
     <body>
-        <?php 
+        <?php
             $dates = getReleaseDate();
             $ratings = getRatings();
             $genres = getGenres();
@@ -101,7 +101,7 @@
                             <option class="placeholder" value="" disabled selected>Location</option>
                             <?php
                             foreach($locations as $location){
-                                echo '<option value="'. $rating['locationId'] . '">' . $location['name'] . '</option>';
+                                echo '<option value="'. $location['locationId'] . '">' . $location['name'] . '</option>';
                             }
                             ?>
                         </select>
@@ -143,7 +143,7 @@
                 <ul>
                 <?php
                     foreach($genres as $genre){
-                        echo '<li>' . $genre['movie_category'] . ' (' . $genre['amount'] . ')</li>';
+                        echo '<li><a href="index.php?genre='.$genre['movie_category'].'">' . $genre['movie_category'] . ' (' . $genre['amount'] . ')</a></li>';
                     }
                 ?>
                 </ul>
@@ -154,6 +154,7 @@
                 <p>site design / logo © 2015  CSIT GUYS</p>
                 <span class="clear"></span>
             </div>
+
             <div id="footer_img_wrapper">
                 <img src="images/inverse.png" height="30px" width="100px">
                 <span class="clear"></span>

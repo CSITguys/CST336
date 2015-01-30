@@ -8,6 +8,9 @@ body{
     height: inherit;
     font-family: sans-serif;
 }
+form {
+    display:block
+}
 
 /*Header*/
 #header {
@@ -29,10 +32,9 @@ div.logo {
 a.logo  {
     text-decoration: none;
 }
-form {
-    display:block
-}
 
+
+/*Search container*/
 div.search {
 
     padding-right: 20px;
@@ -43,7 +45,6 @@ div.search {
     min-width:500px;
     text-align: right
 }
-
 
 input.searchbar {
     margin: 0;
@@ -69,20 +70,24 @@ input.searchButton {
     border-bottom-right-radius: 5px 5px;
     float: right
 }
-
-.placeholder {
-    color: lightgray
+input.serchButton:hover{
+    background-color: #F46060;
 }
 
 #searchwrapper {
     padding-top: 20px;
-    
+    background-color: #f02323;
 }
 
+/*Filter form*/
+
+.placeholder {
+    color: lightgray
+}
 .filterinput {
     border-color: none;
     background-color: #f02323;
-    color: #fff;    
+    color: #fff;
 }
 .filterinput select {
     border-color: none;
@@ -94,15 +99,11 @@ input.searchButton {
 .right {
     border-top-right-radius: 5px 5px
 }
-form.searchForm {
-    display:inline;
-    padding-top: 20px;
-    margin-top: 20px;
-}
+
 
 form.filterForm {
     padding-top: 10px;
-    
+
     display:inline;
     clear:left;
     float: left;
@@ -110,6 +111,13 @@ form.filterForm {
     margin-left: 0%
 
 }
+
+form.searchForm {
+    display:inline;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+/*Footer*/
 #footer {
     background-color: #f02323;
     margin: 0;
@@ -123,13 +131,24 @@ form.filterForm {
     margin-right: 10px;
     margin-top: 3px;
     float:right
-        
+
 }
+#copyright_wrapper {
+    float: left;
+    height: 30px;
+    margin-left: 10px;
+}
+
+/*main body*/
 #main{
     margin-top: 65px;
     height: inherit
 }
+
+
+/*sideBar*/
 #genres{
+    font-size: 14px;
     width: 160px;
     padding-top: 60px;
     padding-right: 10px;
@@ -138,11 +157,11 @@ form.filterForm {
     position: fixed;
     top: auto;
     overflow: hidden;
-    
-    font-weight: normal;
+
+
     color: black;
     text-align: left;
-    
+
     text-decoration: none;
     text-transform: uppercase;
 }
@@ -150,13 +169,9 @@ li{
     line-height: 1.9;
     width: 150px;
     list-style-type: none;
-    
+
 }
 
-#copyright_wrapper {
-    float: left;
-    height: 30px;
-    margin-left: 10px;
-}
+
 
 
