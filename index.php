@@ -35,6 +35,17 @@
         $stmt -> execute();
         return $stmt->fetchAll();
     }
+    function getLocations(){
+        global $dbconn;
+        
+        $sql = "SELECT name, locationId
+                FROM locations
+                ORDER BY name";
+        $stmt = $dbconn -> prepare($sql);
+        $stmt -> execute();
+        return $stmt->fetchAll();   
+    }
+
 
 ?>
 <!DOCTYPE html>
@@ -63,6 +74,7 @@
             $dates = getReleaseDate();
             $ratings = getRatings();
             $genres = getGenres();
+            $locations = getLocations();
         ?>
         <div id="header">
             <div class="logo">
@@ -74,24 +86,30 @@
             <div class="search">
                 <form class="filterForm">
                     <select name="location">
-                        <option value="location_id">location A</option>
-                        <option value="location_id">location B</option>
-                        <option value="location_id">location C</option>
+                        <option class="placeholder" value="" disabled selected>Location</option>
+                        <?php
+                        foreach($locations as $location){
+                            echo '<option value="'. $rating['locationId'] . '">' . $location['name'] . '</option>';
+                        }
+                        ?>
                     </select>
                     <select name="rating">
+                        <option class="placeholder" value="" disabled selected>rating</option>
                         <?php
                             foreach($ratings as $rating){
                                 echo '<option value="' . $rating['rating'] . '">' . $rating['rating'] . '</option>';
                             }
                         ?>
                     </select>
-                    <select name="year">
+                    <select name="year" >
+                        <option class="placeholder" value="" disabled selected>Date</option>
                         <?php
                             foreach($dates as $date){
                                 echo '<option value="' . $date['release_date'] . '">' . $date['release_date'] . '</option>';
                             }
                         ?>
                     </select>
+                    <input type="submit" value="Filter">
                 </form>
                 <form class="searchForm" >
                     <input name="searchBar" type="input" class="searchbar" maxlength="100" size="21">

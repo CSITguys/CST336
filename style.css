@@ -116,3 +116,7 @@ li{
     height: 30px;
     margin-left: 10px;
 }
+
+.placeholder {
+    color: lightgray
+}
