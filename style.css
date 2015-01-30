@@ -8,6 +8,8 @@ body{
     height: inherit;
     font-family: sans-serif;
 }
+
+/*Header*/
 #header {
     border-bottom:solid 2px #f02323;
 
@@ -32,7 +34,7 @@ form {
 }
 
 div.search {
-    padding-top: 30px;
+
     padding-right: 20px;
     line-height: 1.2;
     float: right;
@@ -68,11 +70,39 @@ input.searchButton {
     float: right
 }
 
+.placeholder {
+    color: lightgray
+}
+
+#searchwrapper {
+    padding-top: 20px;
+    
+}
+
+.filterinput {
+    border-color: none;
+    background-color: #f02323;
+    color: #fff;    
+}
+.filterinput select {
+    border-color: none;
+    background-color: #f02323;
+}
+.left{
+    border-top-left-radius: 5px 5px
+}
+.right {
+    border-top-right-radius: 5px 5px
+}
 form.searchForm {
-    display:inline
+    display:inline;
+    padding-top: 20px;
+    margin-top: 20px;
 }
 
 form.filterForm {
+    padding-top: 10px;
+    
     display:inline;
     clear:left;
     float: left;
@@ -129,6 +159,4 @@ li{
     margin-left: 10px;
 }
 
-.placeholder {
-    color: lightgray
-}
+

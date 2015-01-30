@@ -95,38 +95,45 @@
                 <span class="clear"></span>
             </div>
             <div class="search">
-                <form class="filterForm">
-                    <select name="location">
-                        <option class="placeholder" value="" disabled selected>Location</option>
-                        <?php
-                        foreach($locations as $location){
-                            echo '<option value="'. $rating['locationId'] . '">' . $location['name'] . '</option>';
-                        }
-                        ?>
-                    </select>
-                    <select name="rating">
-                        <option class="placeholder" value="" disabled selected>rating</option>
-                        <?php
-                            foreach($ratings as $rating){
-                                echo '<option value="' . $rating['rating'] . '">' . $rating['rating'] . '</option>';
+                <div id="filterwrapper">
+                    <form class="filterForm">
+                        <select name="location" class="filterinput left" >
+                            <option class="placeholder" value="" disabled selected>Location</option>
+                            <?php
+                            foreach($locations as $location){
+                                echo '<option value="'. $rating['locationId'] . '">' . $location['name'] . '</option>';
                             }
-                        ?>
-                    </select>
-                    <select name="year" >
-                        <option class="placeholder" value="" disabled selected>Date</option>
-                        <?php
-                            foreach($dates as $date){
-                                echo '<option value="' . $date['release_date'] . '">' . $date['release_date'] . '</option>';
-                            }
-                        ?>
-                    </select>
-                    <input type="submit" value="Filter">
-                </form>
-                <form class="searchForm" >
-                    <input name="searchBar" type="input" class="searchbar" maxlength="100" size="21">
-                    <input type="submit" value="search" class="searchButton">
-                    <span class="clear"></span>
-                </form>
+                            ?>
+                        </select>
+                        <select name="rating" class="filterinput">
+                            <option class="placeholder" value="" disabled selected>rating</option>
+                            <?php
+                                foreach($ratings as $rating){
+                                    echo '<option value="' . $rating['rating'] . '">' . $rating['rating'] . '</option>';
+                                }
+                            ?>
+                        </select>
+                        <select name="year" class="filterinput right">
+                            <option class="placeholder" value="" disabled selected>Date</option>
+                            <?php
+                                foreach($dates as $date){
+                                    echo '<option value="' . $date['release_date'] . '">' . $date['release_date'] . '</option>';
+                                }
+                            ?>
+                        </select>
+                        <br />
+                        <input class="searchButton" type="reset" value="Clear Filters" style="width:50%; border-top-right-radius: 0px 0px;
+    border-bottom-right-radius: 5px 5px; border-right: thin solid #fff ">
+                        <input class="searchButton" type="submit" value="Filter" style="width:50%; border-bottom-left-radius: 5px 5px; border-top-right-radius: 0 0 ; border-bottom-right-radius: 0 0;">
+                    </form>
+                </div>
+                <div id="searchwrapper">
+                    <form class="searchForm" >
+                        <input name="searchBar" type="input" class="searchbar" maxlength="100" size="21">
+                        <input type="submit" value="search" class="searchButton">
+                        <span class="clear"></span>
+                    </form>
+                </div>
 
             </div>
             <span class="clear"></span>
