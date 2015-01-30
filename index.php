@@ -45,6 +45,17 @@
         $stmt -> execute();
         return $stmt->fetchAll();   
     }
+    $searchResults = "";
+    if(isset($_GET['searchBar'])){
+        $searchinput = $_GET['searchBar'];
+        $sql = "SELECT *
+                FROM movie_table
+                WHERE movie_title 
+                LIKE :search";
+        $stmt = $dbconn -> prepare($sql);
+        $stmt -> execute(array(':search'=>('%'. $searchinput . '%')));
+        $searchResults = $stmt->fetchAll();
+    }
 
 
 ?>
