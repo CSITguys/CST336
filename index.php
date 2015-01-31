@@ -56,6 +56,17 @@
         $stmt -> execute(array(':search'=>('%'. $searchinput . '%')));
         $searchResults = $stmt->fetchAll();
     }
+    $category = "";
+    if(isset($_GET['genre'])){
+        $sql = "SELECT *
+                FROM movie_table
+                WHERE movie_category=:movie_category
+                ORDER BY movie_title";
+        $stmt = $dbconn -> prepare($sql);
+        $stmt -> execute(array(':movie_category'=>$_GET['genre']));
+        $category = $stmt->fetchAll();
+        
+    }
 
 
 ?>
@@ -138,6 +149,7 @@
             </div>
             <span class="clear"></span>
         </div>
+        
         <div id=main>
             <div id="genres">
                 <ul>
@@ -147,8 +159,29 @@
                     }
                 ?>
                 </ul>
+                <span class="clear"></span>
+            </div>
+            <div id="mainpage">
+                <table>
+                    <tr>
+                        <td> col1</td>
+                        <td> col2</td>
+                        <td> col3</td>
+                    </tr>
+                    <tr>
+                        <td> col1</td>
+                        <td> col2</td>
+                        <td> col3</td>
+                    </tr>
+                    <tr>
+                        <td> col1</td>
+                        <td> col2</td>
+                        <td> col3</td>
+                    </tr>
+                </table>
             </div>
         </div>
+        
         <div id="footer">
             <div id="copyright_wrapper">
                 <p>site design / logo © 2015  CSIT GUYS</p>

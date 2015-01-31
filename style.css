@@ -70,13 +70,12 @@ input.searchButton {
     border-bottom-right-radius: 5px 5px;
     float: right
 }
-input.serchButton:hover{
+input.searchButton:hover{
     background-color: #F46060;
 }
 
 #searchwrapper {
     padding-top: 20px;
-    background-color: #f02323;
 }
 
 /*Filter form*/
@@ -157,7 +156,7 @@ form.searchForm {
     position: fixed;
     top: auto;
     overflow: hidden;
-
+    float: left;
 
     color: black;
     text-align: left;
@@ -173,5 +172,10 @@ li{
 }
 
 
-
-
+#main_body {
+    clear: both;
+    width:80%;
+    padding-left: 60px;
+    margin-top: 65px;
+    float: right;
+}
