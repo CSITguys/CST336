@@ -101,7 +101,21 @@
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
         <link type="text/css" rel="stylesheet" href="style.css">
+        <script>
+            function confirmRental(movie_title, location) {
+                var remove = confirm("Do you really want to rent " + movie_title + "From" + location + "?");
+                if (!remove) {
+                    event.preventDefault();
+                }
+            }
 
+            function confirmLogout(event) {
+                var logout = confirm("Do you really want to log out?");
+                if (!logout) {
+                    event.preventDefault();
+                }
+            }
+        </script>
 	</head>
     <body>
         <?php
