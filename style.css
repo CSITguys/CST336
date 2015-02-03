@@ -140,8 +140,13 @@ form.searchForm {
 
 /*main body*/
 #main{
-    margin-top: 65px;
-    height: inherit
+    margin-top: 64px;
+    height: inherit;
+    position: fixed;
+    overflow: scroll;
+    width: 100%;
+    min-width: 600px;
+    
 }
 
 
@@ -175,7 +180,13 @@ li{
 #mainpage {
     clear: both;
     width:70%;
-    padding-left: 60px;
-    margin-top: 65px;
+    padding-left: 0px;
+    padding-top: 0;
+    padding-bottom: 60px;
     float: right;
+    margin-left: 170px;
+}
+
+.description {
+    padding-right: 20px;
 }
