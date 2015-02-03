@@ -16,15 +16,17 @@
 
     function getLocations(){
         global $dbconn;
-        $sql = "SELECT DISTINCT locations.location_id, name
+        $sql = "SELECT locations.location_id, name, MIN(inventory_id)
                 FROM locations
                 INNER JOIN inventory ON locations.location_id = inventory.location_id
-                WHERE inventory.movie_id =:movie_id";
+                WHERE inventory.movie_id =:movie_id
+                GROUP BY name";
         $stmt = $dbconn -> prepare($sql);
         $stmt -> execute(array(':movie_id'=>$_GET['movie_id']));
         return $stmt->fetchAll();
     }
     $movie_details= get_description();
+    $locations = getLocations();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -138,19 +140,21 @@
                 <p class="description">
                     <?php 
                         echo $movie_details[0]['movie_description'];
+                        
                     ?>
                 </p>
-                <form method="post" onsubmit="confirmRental('<?=$movie['movie_title']?>', 1)">
-                    <select>
+                <form method="post" action="rent.php" onsubmit="confirmRental('<?=$movie['movie_title']?>', 1)">
+                    <select name="location">
                         <?php
-                            $locations = getLocations();
+                           
+                            
+                        
                             foreach($locations as $location){
-                                echo '<option value="'.$location['location_id'].'">' . $location['name'] . '</option>';
+                                echo '<option value="'.$location['MIN(inventory_id)'].'">' . $location['name'] . '</option>';
                             }
                         ?>
                     </select>
-				    <input type = "hidden" name = "movieId" value = "<?=$movie['movie_title']?>">
-				    <input type = "submit" name = "update" value = "Rent Now">
+				    <input type = "submit" value = "Rent Now">
 				</form>
                 
             </div>
