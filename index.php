@@ -1,188 +1,211 @@
 <?php
-    require "connections.php";
+    require "db_connection.php";
     function getReleaseDate(){
         global $dbconn;
-
+        
         $sql = "SELECT DISTINCT release_date
                 FROM movie_table
                 ORDER BY release_date DESC";
-
+        
         $stmt = $dbconn -> prepare($sql);
         $stmt -> execute();
         return $stmt->fetchAll();
     }
     function getRatings(){
         global $dbconn;
-
+        
         $sql = "SELECT DISTINCT rating
+        323
+        +
                 FROM movie_table
                 ORDER BY rating ASC";
-
+        
         $stmt = $dbconn -> prepare($sql);
         $stmt -> execute();
         return $stmt->fetchAll();
     }
+    function getMovieNames(){
+        global $dbconn;
+        
+		$sql = "SELECT rating, movie_category, release_date, movie_title
+				FROM movie_table
+				ORDER BY movie_title";
+        
+        $stmt = $dbconn -> prepare($sql);
+        $stmt -> execute();
+        return $stmt->fetchAll();
+	}
     function getGenres(){
         global $dbconn;
-
-        $sql = "SELECT movie_category,
+        
+        $sql = "SELECT movie_category, 
                 COUNT(*) AS amount
                 FROM movie_table
                 GROUP BY movie_category
                 ORDER BY amount DESC";
-
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute();
-        return $stmt->fetchAll();
-    }
-    function getLocations(){
-        global $dbconn;
-
-        $sql = "SELECT name, locationId
-                FROM locations
-                ORDER BY name";
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute();
-        return $stmt->fetchAll();
-    }
-    $searchResults = "";
-    if(isset($_GET['searchBar'])){
-        $searchinput = $_GET['searchBar'];
-        $sql = "SELECT *
-                FROM movie_table
-                WHERE movie_title
-                LIKE :search";
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute(array(':search'=>('%'. $searchinput . '%')));
-        $searchResults = $stmt->fetchAll();
-    }
-    $category = "";
-    if(isset($_GET['genre'])){
-        $sql = "SELECT *
-                FROM movie_table
-                WHERE movie_category=:movie_category
-                ORDER BY movie_title";
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute(array(':movie_category'=>$_GET['genre']));
-        $category = $stmt->fetchAll();
         
+        $stmt = $dbconn -> prepare($sql);
+        $stmt -> execute();
+        return $stmt->fetchAll();
     }
-
-
 ?>
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
+<html>
 
-		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
-		Remove this if you use the .htaccess -->
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<head>
+<style>
+#header {
+	border-bottom:solid 2px #f02323;
+    text-align:center;
+    padding:5px;
+    height: 60px;
+}
+#nav {
+    line-height:30px;
+    height:1100px;
+    width:220px;
+    float:left;
+    padding:5px;
+    border-right: thin solid pink;	      
+}
+#section {
+    width:850px;
+    float:left;
+    padding:20px;	
+    text-align: center; 	 
+}
+#footer {
+    background-color: #f02323;
+    margin: 0;
+    color: #FFF;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
 
-		<title>Crimson Cube</title>
-		<meta name="description" content="">
-		<meta name="author" content="csitguys">
+#footer_img_wrapper {
+    margin-right: 10px;
+    margin-top: 3px;
+    float:right
 
-		<meta name="viewport" content="width=device-width; initial-scale=1.0">
+}
+#copyright_wrapper {
+    float: left;
+    height: 30px;
+    margin-left: 10px;
+}
+div.logo {
+    float: left;
+    display: block;
+    padding-left: 20px;
+    padding-top: 10px
+}
+#logo {
+	width:150px;
+	float: left;
+}
+h2 {
+	text-align:center;
+}
+#welcome {
+	font-size: 36px;
+	color: red;
+	padding-right: 100px;
+	padding-top:7px;
+	
+}
+input.searchbar {
+    margin: 0;
+    padding: 5px 15px;
+    font-size: 14px;
+    border: 1px solid #f02323;
+    border-right: 0px;
+    border-top-left-radius: 5px 5px;
+    border-bottom-left-radius: 5px 5px;
+}
 
-		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
-		<link rel="shortcut icon" href="/favicon.ico">
-		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-        <link type="text/css" rel="stylesheet" href="style.css">
+input.searchButton {
+    margin: 0;
+    padding: 5px 15px;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    border: #f02323;
+    background-color: #f02323;
+    border-top-right-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+}
+input.searchButton:hover{
+    background-color: #F46060;
+}
+div.search {
 
-	</head>
-    <body>
-        <?php
-            $dates = getReleaseDate();
-            $ratings = getRatings();
-            $genres = getGenres();
-            $locations = getLocations();
-        ?>
-        <div id="header">
-            <div class="logo">
-                <a class="logo" href="./">
-                    <img src="images/test2.png" width="150px" height="48px" >
+    padding-right: 20px;
+    line-height: 1.2;
+    float: right;
+    display: inline;
+    width: 70%;
+    min-width:500px;
+    text-align: right
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="header">
+	<div id = "logo">
+	 <a class="logo" href="http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/new_file.php">
+                    <img src="test2.png" width="150px" height="48px" >
                 </a>
-                <span class="clear"></span>
-            </div>
-            <div class="search">
-                <div id="filterwrapper">
-                    <form class="filterForm">
-                        <select name="location" class="filterinput left" >
-                            <option class="placeholder" value="" disabled selected>Location</option>
-                            <?php
-                            foreach($locations as $location){
-                                echo '<option value="'. $location['locationId'] . '">' . $location['name'] . '</option>';
-                            }
-                            ?>
-                        </select>
-                        <select name="rating" class="filterinput">
-                            <option class="placeholder" value="" disabled selected>rating</option>
-                            <?php
-                                foreach($ratings as $rating){
-                                    echo '<option value="' . $rating['rating'] . '">' . $rating['rating'] . '</option>';
-                                }
-                            ?>
-                        </select>
-                        <select name="year" class="filterinput right">
-                            <option class="placeholder" value="" disabled selected>Date</option>
-                            <?php
-                                foreach($dates as $date){
-                                    echo '<option value="' . $date['release_date'] . '">' . $date['release_date'] . '</option>';
-                                }
-                            ?>
-                        </select>
-                        <br />
-                        <input class="searchButton" type="reset" value="Clear Filters" style="width:50%; border-top-right-radius: 0px 0px;
-    border-bottom-right-radius: 5px 5px; border-right: thin solid #fff ">
-                        <input class="searchButton" type="submit" value="Filter" style="width:50%; border-bottom-left-radius: 5px 5px; border-top-right-radius: 0 0 ; border-bottom-right-radius: 0 0;">
-                    </form>
                 </div>
+     <div id = "welcome">
+Welcome To The Crimson Cube Website
+</div>
+</div>
+
+<div id="nav">
+Sign In<br>
+<a href = "http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/viewallMovies.php">View All Movies</a><br>View All Movies<br>
+Return A Movie<br>
+Manage My Account<br>
+Sign Out<br>
+<a href = "http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/signup.php">Sign Up Today</a><br>
+Search All Movies
                 <div id="searchwrapper">
                     <form class="searchForm" >
-                        <input name="searchBar" type="input" class="searchbar" maxlength="100" size="21">
+                        <input name="searchBar" type="input" class="searchbar" maxlength="100" size="10">
                         <input type="submit" value="search" class="searchButton">
                         <span class="clear"></span>
                     </form>
                 </div>
 
-            </div>
-            <span class="clear"></span>
-        </div>
-        
-        <div id=main>
-            <div id="genres">
-                <ul>
-                <?php
-                    foreach($genres as $genre){
-                        echo '<li><a href="index.php?genre='.$genre['movie_category'].'">' . $genre['movie_category'] . ' (' . $genre['amount'] . ')</a></li>';
-                    }
-                ?>
-                </ul>
-                <span class="clear"></span>
-            </div>
-            <div id="mainpage">
-                <table>
-                    <tr>
-                        <td> col1</td>
-                        <td> col2</td>
-                        <td> col3</td>
-                    </tr>
-                    <tr>
-                        <td> col1</td>
-                        <td> col2</td>
-                        <td> col3</td>
-                    </tr>
-                    <tr>
-                        <td> col1</td>
-                        <td> col2</td>
-                        <td> col3</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        
-        <div id="footer">
+</div>
+
+<div id="section">
+<h2>Welcome!</h2>
+<p>
+Welcome to the Crimson Cube Website.  The Crimson Cube is a DVD rental service that is available at some of the most popular grocery stores.  We also rent DVD's online.
+  Feel free to search through our available DVD's on our website.  
+</p>
+<p>
+Please start by loging in to your account, or if you do not currently have an account with us, click the "Creat New Account" button at the bottom of the page.
+</p>
+<form action = "viewallMovies.php" method = "POST">
+			Username:  <input type = "text" name = "username"><br/><br/>
+			Password:  <input type = "text" name = "password"><br/><br/>
+			<input type = "submit" value = "Sign In!">
+		</form>
+<br/><br/>
+<form action = "signup.php" method = "POST">
+	<input type = "submit" value = "Create New Account!">
+</form>
+</div>
+
+<div id="footer">
             <div id="copyright_wrapper">
                 <p>site design / logo © 2015  CSIT GUYS</p>
                 <span class="clear"></span>
@@ -192,6 +215,7 @@
                 <img src="images/inverse.png" height="30px" width="100px">
                 <span class="clear"></span>
             </div>
-        </div>
-    </body>
+</div>
+
+</body>
 </html>
