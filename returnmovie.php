@@ -255,10 +255,10 @@
 						echo "<option value='" . $movie['transaction_id'] . "' >" . $movie['transaction_id']. "</option>";
 					echo "</td>";
 					echo "<td>";
-						echo "<option value='" . $movie['dates'] . "' >" . $movie['date']. "</option>";
+						echo "<option value='" . $movie['dates'] . "' >" . $movie['dates']. "</option>";
 					echo "</td>";
 					echo "<td>";
-						echo "<option value='" . $name['movie_title']. "' >" . $name['movie_title'].. "</option>";
+						echo "<option value='" . $name['movie_title']. "' >" . $name['movie_title']. "</option>";
 					echo "</td>";
 					echo "<td>";
 						
