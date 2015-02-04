@@ -74,14 +74,14 @@
         $stmt -> execute(array(':movie_category'=>$_GET['genre']));
         $category = $stmt->fetchAll();    
     }
-	function gettransactions ($customer_id) {
-	if (isset ($_GET['customer_id'])) {
-		$customer_Id = $_GET['customer_id'];
+	function gettransactions () {
+	if (isset ($_SESSION['user_id'])) {
+		
 		$sql = "SELECT transaction_id, inventory_id, date, location_id, returned*
 				FROM transactions
 				WHERE customer_Id = :customer_id";
 		$stmt = $dbConn -> prepare($sql);
-		$stmt -> execute();
+		$stmt -> execute(array(':customerid'=>$_SESSION['user_id']));
 		$stadiumInfo = $stmt -> fetch();
 	}
 	}
