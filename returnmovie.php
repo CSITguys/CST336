@@ -75,16 +75,16 @@
         $category = $stmt->fetchAll();
         
     }
-	function getrentedmovies ($customer_id) {
-	if (isset ($_SESSION['user_id'])) {
+	function getrentedmovies () {
+		if (isset ($_SESSION['user_id'])) {
 	
-		$sql = "SELECT transaction_id, date, returned*
-				FROM transactions
-				WHERE customer_Id = :customer_id, returned = 0";
-		$stmt = $dbConn -> prepare($sql);
-		$stmt -> execute(array(':customer_id'=>$_SESSION['user_id']));
-		$stadiumInfo = $stmt -> fetch();
-	}
+			$sql = "SELECT transaction_id, date, returned*
+					FROM transactions
+					WHERE customer_Id = :customer_id, returned = 0";
+			$stmt = $dbConn -> prepare($sql);
+			$stmt -> execute(array(':customer_id'=>$_SESSION['user_id']));
+			$stadiumInfo = $stmt -> fetch();
+		}
 	}
 	if (isset($_POST['update'])) { //checks whether we're coming from "save data" form
 
@@ -222,43 +222,43 @@
                 <h1>Return A Movie</h1>
                 <p>Here is a list of all movies you currently have rented out.  Click "Return Now" to return any movie.</p>
                 <?php
-		if (isset($_POST['customer_id'])) {
-			$moviesrented = getrentedmovies($_POST['customer_id']);
-				echo "<table border = \"1\">";
-                		echo "<tr>";
-						?>
-                			<td id = "title"><strong>Transaction ID</strong></td>
-                			<td id = "title"><strong>Date</strong></td>
-                			<td id = "title"><strong>Movie Name</strong></td>
-                			<td id = "title"><strong>Please Return</strong></td>
+		
+		$moviesrented = getrentedmovies();
+		echo "<table border = \"1\">";
+		echo "<tr>";
+		?>
+			<td id = "title"><strong>Transaction ID</strong></td>
+			<td id = "title"><strong>Date</strong></td>
+			<td id = "title"><strong>Movie Name</strong></td>
+			<td id = "title"><strong>Please Return</strong></td>
+			<?php
+		echo "</tr>";
+				foreach ($moviesrented as $movie) {
+					echo "<tr>";
+					echo "<td>";
+						echo "<option value='" . $movie['transaction_id'] . "' >" . $movie['transaction_id']. "</option>";
+					echo "</td>";
+					echo "<td>";
+						echo "<option value='" . $movie['date'] . "' >" . $movie['date']. "</option>";
+					echo "</td>";
+					echo "<td>";
+						echo "<option value='" . $movie['inventory_id'] . "' >" . $movie['inventory_id']. "</option>";
+					echo "</td>";
+					echo "<td>";
+						echo "<option value='" . $transaction['location_id'] . "' >" . $transaction['location_id']. "</option>";
+					echo "</td>";
+					echo "<td>";
+						echo "<option value='" . $transaction['returned'] . "' >" . $transaction['returned']. "</option>";
+					echo "</td>";
+					?>
+					<form method = "post">
+					<input type = "hidden" name = "transaction_id" value = "<?=$movie['transaction_id']?>">
+					<input type = "submit" name = "update" value = "Please Return">
+					</form>
 					<?php
-                		echo "</tr>";
-						foreach ($moviesrented as $movie) {
-							echo "<tr>";
-							echo "<td>";
-								echo "<option value='" . $movie['transaction_id'] . "' >" . $movie['transaction_id']. "</option>";
-							echo "</td>";
-							echo "<td>";
-								echo "<option value='" . $movie['date'] . "' >" . $movie['date']. "</option>";
-							echo "</td>";
-							echo "<td>";
-								echo "<option value='" . $movie['inventory_id'] . "' >" . $movie['inventory_id']. "</option>";
-							echo "</td>";
-							echo "<td>";
-								echo "<option value='" . $transaction['location_id'] . "' >" . $transaction['location_id']. "</option>";
-							echo "</td>";
-							echo "<td>";
-								echo "<option value='" . $transaction['returned'] . "' >" . $transaction['returned']. "</option>";
-							echo "</td>";
-							?>
-							<form method = "post">
-							<input type = "hidden" name = "transaction_id" value = "<?=$movie['transaction_id']?>">
-							<input type = "submit" name = "update" value = "Please Return">
-							</form>
-							<?php
-							}
-					echo "</table>";	
-					}?>
+					}
+			echo "</table>";	
+		?>
             </div>
         </div>
         
