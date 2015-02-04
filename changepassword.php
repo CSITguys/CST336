@@ -79,9 +79,9 @@
 	require 'connections.php';
 	global $dbconn;
 	
-	$sql = "SELECT *
+	/*$sql = "SELECT *
 			FROM users
-			WHERE username = :email
+			WHERE email = :email
 			AND password = :password";
 			
 	$stmt = $dbconn -> prepare($sql);
@@ -94,18 +94,18 @@
 		}
 	else {
 		$_SESSION['username'] = $record['email'];
-		$_SESSION['name'] = $record['firstname']." ".$record['lastname'];
-		if (isset($_POST['new_password'])) {
+		$_SESSION['name'] = $record['firstname']." ".$record['lastname'];*/
+	if (isset($_POST['new_password'])) {
 
 	$sql = "UPDATE users
-			SET new_password = :password
+			SET password = :password
 			WHERE email = :email";
 	$stmt = $dbconn -> prepare($sql);
 	$stmt -> execute(array(":password"=>('SHA1('. $_POST['new_password'].')'),
 			":email"=>$record['email'])); 
 
 	echo "PASSWORD UPDATED!! <br> <br>"; 
-	}
+	
 		header("Location: index.php");
 	}
 }
