@@ -74,14 +74,14 @@
         $stmt -> execute(array(':movie_category'=>$_GET['genre']));
         $category = $stmt->fetchAll();    
     }
-	function gettransactions () {
-	if (isset ($_SESSION['user_id'])) {
-		
-		$sql = "SELECT transaction_id, inventory_id, date, location_id, returned*
+	function gettransactions ($customer_id) {
+	if (isset ($_GET['user_id'])) {
+		$customer_Id = $_GET['customer_id'];
+		$sql = "SELECT transaction_id, inventory_id, dates, location_id, returned*
 				FROM transactions
 				WHERE customer_Id = :customer_id";
 		$stmt = $dbConn -> prepare($sql);
-		$stmt -> execute(array(':customerid'=>$_SESSION['user_id']));
+		$stmt -> execute();
 		$stadiumInfo = $stmt -> fetch();
 	}
 	}
@@ -212,8 +212,8 @@
                 <h3>View All Transactions</h3>
                 <p>Here is a list of all of the transactions that were made to this account.</p>
                 <?php
-		if (isset($_POST['customer_id'])) {
-			$transactionsinfo = gettransactions($_POST['customer_id']);
+		if (isset($_SESSION['user_id'])) {
+	
 				echo "<table border = \"1\">";
                 		echo "<tr>";
 						?>
@@ -225,22 +225,23 @@
 							<td> </td>
 						<?php
                 		echo "</tr>";
-						foreach ($transactionsinfo as $transaction) {
+						$orderinfo = gettransactions($_SESSION['user_id']);	
+						foreach ($orderinfo as $order) {
 							echo "<tr>";
 							echo "<td>";
-								echo "<option value='" . $transaction['transaction_id'] . "' >" . $transaction['transaction_id']. "</option>";
+								echo "<option value='" . $order['transaction_id'] . "' >" . $order['transaction_id']. "</option>";
 							echo "</td>";
 							echo "<td>";
-								echo "<option value='" . $transaction['date'] . "' >" . $transaction['date']. "</option>";
+								echo "<option value='" . $order['dates'] . "' >" . $order['dates']. "</option>";
 							echo "</td>";
 							echo "<td>";
-								echo "<option value='" . $transaction['inventory_id'] . "' >" . $transaction['inventory_id']. "</option>";
+								echo "<option value='" . $order['inventory_id'] . "' >" . $order['inventory_id']. "</option>";
 							echo "</td>";
 							echo "<td>";
-								echo "<option value='" . $transaction['location_id'] . "' >" . $transaction['location_id']. "</option>";
+								echo "<option value='" . $order['location_id'] . "' >" . $order['location_id']. "</option>";
 							echo "</td>";
 							echo "<td>";
-								echo "<option value='" . $transaction['returned'] . "' >" . $transaction['returned']. "</option>";
+								echo "<option value='" . $order['returned'] . "' >" . $order['returned']. "</option>";
 							echo "</td>";
 							}
 					echo "</table>";	
