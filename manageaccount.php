@@ -3,7 +3,7 @@
     if(!isset($_SESSION['username'])){
         header("Location: signon.php");
     }
-    require "connections.php";
+    require "db_connection.php";
     function getReleaseDate(){
         global $dbconn;
         $sql = "SELECT DISTINCT release_date
@@ -102,7 +102,7 @@
 		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-        <link type="text/css" rel="stylesheet" href="style.css">
+        <link type="text/css" rel="stylesheet" href="mystyles1.css">
         <script>
             function confirmRental(movie_title, location) {
                 var remove = confirm("Do you really want to rent " + movie_title + "From" + location + "?");
@@ -128,7 +128,7 @@
         <div id="header">
             <div class="logo">
                 <a class="logo" href="index.php">
-                    <img src="images/test2.png" width="150px" height="48px" >
+                    <img src="test2.png" width="150px" height="48px" >
                 </a>
                 <span class="clear"></span>
             </div>
@@ -185,7 +185,7 @@
 			?>
 			<a href="signon.php">Sign In</a><br>
 			<a href="returnmovie.php">Return A Movie</a><br>
-			<a href="manageaccount.php">Manage Account</a><br>
+			<a href="http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/mangeaccount.php">Manage Account</a><br>
 			<a href="transactions.php">Order History</a><br>
 			<form method="post" action="signout.php" onsubmit="confirmLogout()">
 				<input type="submit" value="Sign Out" />
@@ -205,9 +205,10 @@
                 <p>Welcome to the manage my account page.  From this page you will be able to make any changes needed to your account.  Below 
                 	is a menu of the options you have, please click "change password" to change the password for your account, or click "View All Transactions"
                 	to view all of the transactions made to this account.</p>
-                 <span class="menuItem">Main Menu</span>&nbsp;&nbsp;&nbsp;&nbsp;
- 			  	 <span class="menuItem"><a href="changepassword.php">Change Password</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
-  				 <span class="menuItem">View All Transactions</span>
+                 <span class="menuItem"><a href = "http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/mangeaccount.php"?>Main Menu</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
+ 			  	 <span class="menuItem"><a href="http://hosting.csumb.edu/powellphillipl/CST336/Group%20Project/changepassword.php">Change Password</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
+ 			  	  <span class="menuItem"><a href="http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/useractivity.php">User Activity</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
+  				 <span class="menuItem"><a href = "http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/transactions.php">View All Transactions</a></span>
             </div>
         </div>
         
