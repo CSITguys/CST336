@@ -39,18 +39,62 @@
         $stmt -> execute();
         return $stmt->fetchAll();
     }
+    function has_next($array) {
+        if (is_array($array)) {
+            if (next($array) === false) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
     function getMovieNames(){
         global $dbconn;
         $condition = "WHERE " ;
+        $arrayconditions = array();
         while($filteritem = current($_GET)){
+            if (key($_GET) == 'location'){
+                $condition .= "movie_table.movie_id IN (
+                               SELECT movie_id
+                               FROM inventory
+                               WHERE location_id = :location_id)";
+                
+                $arrayconditions['location_id'] = $filteritem;
+            }
+            elseif(key($_GET) == 'genre'){
+                $condition .= "movie_category= :genre ";
+                $arrayconditions['genre'] = $filteritem;
+            }elseif(key($_GET) == 'rating'){
+                $condition .= "rating= :rating ";
+                $arrayconditions[':rating'] = $filteritem;
+            }elseif(key($_GET) == 'year'){
+                $condition .= "release_date= :year ";
+                $arrayconditions[':year'] = $filteritem;
+            }
+            if(has_next($_GET)){
+                $condition .= " AND ";
+            }
+            next($_GET);
+        }
+		$sql = "SELECT rating, movie_category, release_date, movie_title, movie_id
+				FROM movie_table";
+       
+        if($condition >"WHERE "){
+            
+            //echo"<br>" . $sql . "</br>";
+            $sql .= " ". $condition ." ORDER BY movie_title";
+            $stmt = $dbconn -> prepare($sql);
+            $stmt -> execute($arrayconditions);
+            //$stmt -> execute(array(':location_id' =>2));
+        }else{
+            $sql .= " ORDER BY movie_title";
+            $stmt = $dbconn -> prepare($sql);
+            $stmt -> execute();
         }
         
-		$sql = "SELECT rating, movie_category, release_date, movie_title, movie_id
-				FROM movie_table
-				ORDER BY movie_title";
-        
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute();
+       
         return $stmt->fetchAll();
 	}
     function getLocations(){
@@ -209,8 +253,12 @@
             </div>
             <div id="mainpage">
                 <?php
-                    print_r($_GET);
-					$allmovies = getMovieNames();
+                    if(isset($_GET['searchBar'])){
+                        $allmovies = $searchResults;
+                    }else{
+                       $allmovies = getMovieNames(); 
+                    }
+					
                 	echo "<table border = \"1\">";
                 		echo "<tr>";
 						?>
