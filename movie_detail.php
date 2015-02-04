@@ -1,86 +1,32 @@
 <?php
     session_start();
     require "connections.php";
-    function getReleaseDate(){
+    function get_description(){
         global $dbconn;
-
-        $sql = "SELECT DISTINCT release_date
-                FROM movie_table
-                ORDER BY release_date DESC";
-
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute();
-        return $stmt->fetchAll();
+        if(isset($_GET['movie_id'])){
+            $sql = "SELECT movie_description, movie_title
+                    FROM movie_table
+                    WHERE movie_id = :movie_id";
+            $stmt = $dbconn -> prepare($sql);
+            $stmt -> execute(array(':movie_id'=>$_GET['movie_id']));
+            return $stmt->fetchAll();
+        }
+            
     }
-    function getRatings(){
-        global $dbconn;
 
-        $sql = "SELECT DISTINCT rating
-                FROM movie_table
-                ORDER BY rating ASC";
-
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute();
-        return $stmt->fetchAll();
-    }
-    function getGenres(){
-        global $dbconn;
-
-        $sql = "SELECT movie_category,
-                COUNT(*) AS amount
-                FROM movie_table
-                GROUP BY movie_category
-                ORDER BY amount DESC";
-
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute();
-        return $stmt->fetchAll();
-    }
-    function getMovieNames(){
-        global $dbconn;
-        
-		$sql = "SELECT rating, movie_category, release_date, movie_title, movie_id
-				FROM movie_table
-				ORDER BY movie_title";
-        
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute();
-        return $stmt->fetchAll();
-	}
     function getLocations(){
         global $dbconn;
-
-        $sql = "SELECT name, location_id
+        $sql = "SELECT locations.location_id, name, MIN(inventory_id)
                 FROM locations
-                ORDER BY name";
+                INNER JOIN inventory ON locations.location_id = inventory.location_id
+                WHERE inventory.movie_id =:movie_id
+                GROUP BY name";
         $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute();
+        $stmt -> execute(array(':movie_id'=>$_GET['movie_id']));
         return $stmt->fetchAll();
     }
-    $searchResults = "";
-    if(isset($_GET['searchBar'])){
-        $searchinput = $_GET['searchBar'];
-        $sql = "SELECT *
-                FROM movie_table
-                WHERE movie_title
-                LIKE :search";
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute(array(':search'=>('%'. $searchinput . '%')));
-        $searchResults = $stmt->fetchAll();
-    }
-    $category = "";
-    if(isset($_GET['genre'])){
-        $sql = "SELECT *
-                FROM movie_table
-                WHERE movie_category=:movie_category
-                ORDER BY movie_title";
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute(array(':movie_category'=>$_GET['genre']));
-        $category = $stmt->fetchAll();
-        
-    }
-
-
+    $movie_details= get_description();
+    $locations = getLocations();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,16 +37,13 @@
 		Remove this if you use the .htaccess -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-		<title>Crimson Cube</title>
+		<title>
+		      <?php 
+                echo $movie_details[0]['movie_title'];
+            ?>
+		</title>
 		<meta name="description" content="">
 		<meta name="author" content="csitguys">
-
-		<meta name="viewport" content="width=device-width; initial-scale=1.0">
-
-		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
-		<link rel="shortcut icon" href="/favicon.ico">
-		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-        <link type="text/css" rel="stylesheet" href="style.css">
         <script>
             function confirmRental(movie_title, location) {
                 var remove = confirm("Do you really want to rent " + movie_title + "From" + location + "?");
@@ -116,15 +59,20 @@
                 }
             }
         </script>
+		<meta name="viewport" content="width=device-width; initial-scale=1.0">
+
+		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+		<link rel="shortcut icon" href="/favicon.ico">
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <link type="text/css" rel="stylesheet" href="style.css">
+
 	</head>
     <body>
-        <?php
-            $dates = getReleaseDate();
-            $ratings = getRatings();
-            $genres = getGenres();
-            $locations = getLocations();
-        ?>
-        <div id="header">
+        
+        
+        
+                
+<div id="header">
             <div class="logo">
                 <a class="logo" href="./">
                     <img src="images/test2.png" width="150px" height="48px" >
@@ -180,59 +128,34 @@
             <div id="genres">
                 <ul>
                 <?php
-                    foreach($genres as $genre){
-                        echo '<li><a href="index.php?genre='.$genre['movie_category'].'">' . $genre['movie_category'] . ' (' . $genre['amount'] . ')</a></li>';
-                    }
+                    //foreach($genres as $genre){
+                    //    echo '<li><a href="index.php?genre='.$genre['movie_category'].'">' . $genre['movie_category'] . ' (' . $genre['amount'] . ')</a></li>';
+                   // }
                 ?>
                 </ul>
                 <span class="clear"></span>
             </div>
-            <div id="mainpage">
-                <?php
-                	$rows = 30;
-					$allmovies = getMovieNames();
-                	echo "<table border = \"1\">";
-                		echo "<tr>";
-						?>
-                			<td id = "title"><strong>Movie Title</strong></td>
-                			<td id = "title"><strong>Release Date</strong></td>
-                			<td id = "title"><strong>Movie Rating</strong></td>
-                			<td id = "title"><strong>Category</strong></td>
-							<td> </td>
-						<?php
-                		echo "</tr>";
-						foreach ($allmovies as $movie) {
-							echo "<tr>";
+            <div id="mainpage" class="description">
+                <h2><?php echo $movie_details[0]['movie_title'];?></h2>
+                <p class="description">
+                    <?php 
+                        echo $movie_details[0]['movie_description'];
+                        
+                    ?>
+                </p>
+                <form method="post" action="rent.php" onsubmit="confirmRental('<?=$movie['movie_title']?>', 1)">
+                    <select name="location">
+                        <?php
+                           
                             
-							echo "<td>";
-                                echo '<a href="movie_detail.php?movie_id=' . $movie['movie_id'] . '">';
-                                    echo  $movie['movie_title'];
-                                echo "</a>";
-							echo "</td>";
-							echo "<td>";
-								echo $movie['release_date'];
-							echo "</td>";
-							echo "<td>";
-								echo $movie['rating'];
-							echo "</td>";
-							echo "<td>";
-								echo  $movie['movie_category'];
-							echo "</td>";
-							echo "<td>";
-                            
-							?>
-							<form action = "rentnow.php" method = "post">
-							<input type = "hidden" name = "movieId" value = "<?=$movie['movie_title']?>">
-							<input type = "submit" name = "update" value = "Rent Now">
-							</form>
-							<?php
-				}
-					echo "</table>";
-                	
-        			
-				
-				
-				?>
+                        
+                            foreach($locations as $location){
+                                echo '<option value="'.$location['MIN(inventory_id)'].'">' . $location['name'] . '</option>';
+                            }
+                        ?>
+                    </select>
+				    <input type = "submit" value = "Rent Now">
+				</form>
                 
             </div>
         </div>
@@ -248,5 +171,6 @@
                 <span class="clear"></span>
             </div>
         </div>
+        
     </body>
 </html>
