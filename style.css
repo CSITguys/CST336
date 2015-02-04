@@ -187,6 +187,19 @@ li{
     margin-bottom: 60px;
     margin-left: 170px;
 }
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    border: solid red 4px;
+    padding: 10px;
+    font-size: 15px;
+}
+td {
+    padding: 20px;
+    width: 100px;
+    border: solid red 4px;
+    text-align: center 
+}
 
 .description {
     padding-right: 20px;
