@@ -1,5 +1,8 @@
 <?php
     session_start();
+    if(!isset($_SESSION['username'])){
+        header("Location: signon.php");
+    }
     require "connections.php";
     function getReleaseDate(){
         global $dbconn;
@@ -126,7 +129,7 @@
         ?>
         <div id="header">
             <div class="logo">
-                <a class="logo" href="./">
+                <a class="logo" href="index.php">
                     <img src="images/test2.png" width="150px" height="48px" >
                 </a>
                 <span class="clear"></span>
@@ -177,7 +180,16 @@
         </div>
         
         <div id=main>
-            <div id="genres">
+            <div id="navbar">
+                <div id="links">
+                    Sign In<br>
+                    <a href = "http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/viewallMovies.php">View All Movies</a><br>View All Movies<br>
+                    Return A Movie<br>
+                    Manage My Account<br>
+                <form method="post" action="signout.php" onsubmit="confirmLogout()">
+                    <input type="submit" value="Sign Out" />
+                </form>
+                </div>
                 <ul>
                 <?php
                     foreach($genres as $genre){
@@ -198,7 +210,7 @@
                 			<td id = "title"><strong>Release Date</strong></td>
                 			<td id = "title"><strong>Movie Rating</strong></td>
                 			<td id = "title"><strong>Category</strong></td>
-							<td> </td>
+							
 						<?php
                 		echo "</tr>";
 						foreach ($allmovies as $movie) {
@@ -218,13 +230,8 @@
 							echo "<td>";
 								echo  $movie['movie_category'];
 							echo "</td>";
-							echo "<td>";
                             
 							?>
-							<form action = "rentnow.php" method = "post">
-							<input type = "hidden" name = "movieId" value = "<?=$movie['movie_title']?>">
-							<input type = "submit" name = "update" value = "Rent Now">
-							</form>
 							<?php
 				}
 					echo "</table>";
