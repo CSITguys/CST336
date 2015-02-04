@@ -76,7 +76,7 @@
         
     }
 	if (isset($_POST['username'])) {
-	require 'db_connection.php';
+	require 'connections.php';
 	global $dbconn;
 	
 	$sql = "SELECT *
