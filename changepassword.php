@@ -136,7 +136,7 @@
 		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-        <link type="text/css" rel="stylesheet" href="mystyles1.css">
+        <link type="text/css" rel="stylesheet" href="style.css">
         <script>
             function confirmRental(movie_title, location) {
                 var remove = confirm("Do you really want to rent " + movie_title + "From" + location + "?");
