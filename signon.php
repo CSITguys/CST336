@@ -130,6 +130,7 @@
                         <input type="submit" value="Login" />
                         <p></p>
                     </form>
+                    <a href="signup.php">Create an account</a>
                     <p>
                     Username: a@b.com<br />
                     Password: 1234

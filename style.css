@@ -154,7 +154,6 @@ form.searchForm {
 #navbar{
     font-size: 14px;
     width: 160px;
-    padding-top: 60px;
     padding-right: 10px;
     height: inherit;
     border-right: thin solid pink;
@@ -187,7 +186,48 @@ li{
     margin-bottom: 60px;
     margin-left: 170px;
 }
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    border: solid red 4px;
+    border-left: none;
+    border-right: none;
+    padding: 10px;
+    font-size: 15px;
+}
+td {
+    padding: 20px;
+    width: 200px;
+    border: solid red 4px;
+    border-left: none;
+    border-right: none;
+    text-align: center 
+}
+tr:nth-child(even) {
+    background: #FFF
+}
+tr:nth-child(odd) {
+    background: #FFF3F6
+}
+.movie_title {
+    font-size: 16px;
+    font-weight: bold;
+}
+.title_link{
+    color: black;
+}
+.title_link:hover{
+    color:#555;
+}
 
 .description {
     padding-right: 20px;
+    
+}
+
+#links {
+    padding-left: 20px;
+    line-height: 2;
+    padding-bottom: 20px;
+    border-bottom: solid thin pink;
 }
