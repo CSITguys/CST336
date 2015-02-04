@@ -178,6 +178,8 @@
                         echo "<p>Movie Not in stock. </p>";
                     }
                 ?>
+                <br/>
+                <a href="index.php"> Back to movies</a>
             </div>
         </div>
         
