@@ -21,7 +21,13 @@
             $_SESSION['fname'] = $record['first_name'];
             $_SESSION['lname'] = $record['last_name'];
             $_SESSION['user_id'] = $record['user_id'];
-            header("Location: index.php");
+            $sql = "INSERT INTO user_activity 
+                    (session_id, user_id, date, login_time, logout_time)
+                    VALUES (NULL, :user_id, CURDATE(),CURTIME(),0 )";
+            $stmt = $dbconn -> prepare($sql);
+            $stmt -> execute(array(":user_id"=>$_SESSION['user_id']));
+            
+            //header("Location: index.php");
         }
     }
 
