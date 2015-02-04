@@ -27,7 +27,7 @@
             $stmt = $dbconn -> prepare($sql);
             $stmt -> execute(array(":user_id"=>$_SESSION['user_id']));
             
-            //header("Location: index.php");
+            header("Location: index.php");
         }
     }
 
