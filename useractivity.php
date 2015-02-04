@@ -3,7 +3,7 @@
     if(!isset($_SESSION['username'])){
         header("Location: signon.php");
     }
-    require "db_connection.php";
+    require "connections.php";
     function getReleaseDate(){
         global $dbconn;
         $sql = "SELECT DISTINCT release_date
@@ -84,7 +84,7 @@
 				WHERE user_id = :user_id
 				ORDER BY date";
 		$stmt = $dbconn -> prepare($sql);
-		$stmt -> execute(array(':user_id'=>$user_id));
+		$stmt -> execute(array(':user_id'=>$customer_id));
 		return $stmt -> fetchAll();
 	
 	}
@@ -115,7 +115,7 @@
 		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-        <link type="text/css" rel="stylesheet" href="mystyles1.css">
+        <link type="text/css" rel="stylesheet" href="style.css">
         <script>
             function confirmRental(movie_title, location) {
                 var remove = confirm("Do you really want to rent " + movie_title + "From" + location + "?");
@@ -233,7 +233,7 @@
 						foreach ($timeinfo as $time) {
 							echo "<tr>";
 							echo "<td>";
-								echo "<option value='" . $time['user_id'] . "' >" . $order['user_id']. "</option>";
+								echo "<option value='" . $time['user_id'] . "' >" . $time['user_id']. "</option>";
 							echo "</td>";
 							echo "<td>";
 								echo "<option value='" . $time['date'] . "' >" . $time['date']. "</option>";
