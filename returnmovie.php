@@ -44,6 +44,16 @@
         $stmt -> execute();
         return $stmt->fetchAll();
 	}
+	function getName($invId){
+		$sql = "SELECT movie_title
+	                FROM movie_table
+	                INNER JOIN inventory 
+	                ON movie_table.movie_id = inventory.movie_id
+	                WHERE inventory_id =" .$invId;
+	        $stmt = $dbconn -> prepare($sql);
+        	$stmt -> execute();
+        	return $stmt->fetch();
+	}
     function getLocations(){
         global $dbconn;
         $sql = "SELECT name, location_id
@@ -243,10 +253,10 @@
 						echo "<option value='" . $movie['transaction_id'] . "' >" . $movie['transaction_id']. "</option>";
 					echo "</td>";
 					echo "<td>";
-						echo "<option value='" . $movie['date'] . "' >" . $movie['date']. "</option>";
+						echo "<option value='" . $movie['dates'] . "' >" . $movie['date']. "</option>";
 					echo "</td>";
 					echo "<td>";
-						echo "<option value='" . $movie['inventory_id'] . "' >" . $movie['inventory_id']. "</option>";
+						echo "<option value='" . getName($movie['inventory_id']) . "' >" . $movie['inventory_id']. "</option>";
 					echo "</td>";
 					echo "<td>";
 						
