@@ -1,5 +1,5 @@
 <?php
-    require "db_connection.php";
+    require "connections.php";
     function getReleaseDate(){
         global $dbconn;
         
