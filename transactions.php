@@ -3,7 +3,7 @@
     if(!isset($_SESSION['username'])){
         header("Location: signon.php");
     }
-    require "db_connection.php";
+    require "connections.php";
     function getReleaseDate(){
         global $dbconn;
         $sql = "SELECT DISTINCT release_date
@@ -74,15 +74,16 @@
         $stmt -> execute(array(':movie_category'=>$_GET['genre']));
         $category = $stmt->fetchAll();    
     }
-	function gettransactions ($customer_id) {
+	function gettransactions () {
+		global $dbconn;
 	if (isset ($_GET['user_id'])) {
-		$customer_Id = $_GET['customer_id'];
-		$sql = "SELECT transaction_id, inventory_id, dates, location_id, returned*
+		$customer_Id = $_SESSION['user_id'];
+		$sql = "SELECT transaction_id, inventory_id, dates, location_id, returned
 				FROM transactions
 				WHERE customer_Id = :customer_id";
-		$stmt = $dbConn -> prepare($sql);
-		$stmt -> execute();
-		$stadiumInfo = $stmt -> fetch();
+		$stmt = $dbconn -> prepare($sql);
+		$stmt -> execute(array(':customer_id'=>$_SESSION['user_id']));
+		return $stmt -> fetch();
 	}
 	}
 ?>
@@ -112,7 +113,7 @@
 		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-        <link type="text/css" rel="stylesheet" href="mystyles1.css">
+        <link type="text/css" rel="stylesheet" href="style.css">
         <script>
             function confirmRental(movie_title, location) {
                 var remove = confirm("Do you really want to rent " + movie_title + "From" + location + "?");
@@ -225,7 +226,7 @@
 							<td> </td>
 						<?php
                 		echo "</tr>";
-						$orderinfo = gettransactions($_SESSION['user_id']);	
+						$orderinfo = gettransactions();	
 						foreach ($orderinfo as $order) {
 							echo "<tr>";
 							echo "<td>";
