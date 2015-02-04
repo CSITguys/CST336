@@ -84,7 +84,7 @@
 					WHERE customer_id = :customer_id AND returned = 0";
 			$stmt = $dbconn -> prepare($sql);
 			$stmt -> execute(array(':customer_id'=>$_SESSION['user_id']));
-			$stadiumInfo = $stmt -> fetch();
+			return $stmt -> fetchAll();
 		}
 	}
 	if (isset($_POST['update'])) { //checks whether we're coming from "save data" form
