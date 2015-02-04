@@ -1,20 +1,18 @@
 <?php
     session_start();
     require "connections.php";
-    print_r($_POST);
     if(isset($_POST['location'])){
         $price =getPrice($_POST['location']);
-        print_r(getdate());
         //create transaction
         $sql = "INSERT INTO transactions
                 (customer_id, amount, transaction_id, inventory_id, date, returned)
                 VALUES
                 (:customer_id, :price, NULL, :inventory_id, now(), 0)";
         $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute (array(":customer_id" => 1,
+        $stmt -> execute (array(":customer_id" => $_SESSION['user_id'],
                                 ":price" => $price['price'],
                                 ":inventory_id" => $_POST['location']));
-                           //     ":date" => $_POST['date']));
+                           
        /* $stmt -> execute (array(":customer_id" => $_SESSION['customer_id'],
                                 ":price" => $_POST['price'],
                                 ":inventory_id" => $_POST['location'],
@@ -36,4 +34,6 @@
         $stmt -> execute();
         return  $stmt ->fetch();
     }
+    header("Location: index.php");
+
 ?>
