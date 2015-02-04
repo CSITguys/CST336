@@ -76,15 +76,15 @@
     }
 	function gettransactions () {
 		global $dbconn;
-	if (isset ($_GET['user_id'])) {
-		$customer_Id = $_SESSION['user_id'];
+	 
+		$customer_id = $_SESSION['user_id'];
 		$sql = "SELECT transaction_id, inventory_id, dates, location_id, returned
 				FROM transactions
 				WHERE customer_Id = :customer_id";
 		$stmt = $dbconn -> prepare($sql);
-		$stmt -> execute(array(':customer_id'=>$_SESSION['user_id']));
-		return $stmt -> fetch();
-	}
+		$stmt -> execute(array(':customer_id'=>$customer_id));
+		return $stmt -> fetchAll();
+	
 	}
 ?>
 <!DOCTYPE html>
@@ -191,10 +191,13 @@
         <div id=main>
             <div id="navbar">
                 <div id="links">
-                    Sign In<br>
-                    <a href = "http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/viewallMovies.php">View All Movies</a><br>View All Movies<br>
-                    Return A Movie<br>
-                    Manage My Account<br>
+                    <?php
+                    echo "<h4>Welcome " . $_SESSION['fname'] . " ". substr($_SESSION['lname'], 0,1) ."</h4>"
+                    ?>
+                    <a href="signon.php">Sign In</a><br>
+                    <a href="returnmovie.php">Return A Movie</a><br>
+                    <a href="manageaccount.php">Manage Account</a><br>
+                    <a href="transactions.php">Order History</a><br>
                 <form method="post" action="signout.php" onsubmit="confirmLogout()">
                     <input type="submit" value="Sign Out" />
                 </form>
@@ -223,7 +226,7 @@
                 			<td id = "title"><strong>Movie Name</strong></td>
                 			<td id = "title"><strong>Location</strong></td>
                 			<td id = "title"><strong>Was It Returned?</strong></td>
-							<td> </td>
+							
 						<?php
                 		echo "</tr>";
 						$orderinfo = gettransactions();	
@@ -242,7 +245,11 @@
 								echo "<option value='" . $order['location_id'] . "' >" . $order['location_id']. "</option>";
 							echo "</td>";
 							echo "<td>";
-								echo "<option value='" . $order['returned'] . "' >" . $order['returned']. "</option>";
+								if($order['returned']){
+									echo "YES";
+								}else{
+									echo "NO";
+								}
 							echo "</td>";
 							}
 					echo "</table>";	
