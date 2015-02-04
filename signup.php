@@ -1,143 +1,14 @@
 <?php
     require "connections.php";
-    function getReleaseDate(){
-        global $dbconn;
-        
-        $sql = "SELECT DISTINCT release_date
-                FROM movie_table
-                ORDER BY release_date DESC";
-        
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute();
-        return $stmt->fetchAll();
-    }
-    function getRatings(){
-        global $dbconn;
-        
-        $sql = "SELECT DISTINCT rating
-        323
-        +
-                FROM movie_table
-                ORDER BY rating ASC";
-        
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute();
-        return $stmt->fetchAll();
-    }
-    function getMovieNames(){
-        global $dbconn;
-        
-		$sql = "SELECT rating, movie_category, release_date, movie_title
-				FROM movie_table
-				ORDER BY movie_title";
-        
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute();
-        return $stmt->fetchAll();
-	}
-    function getGenres(){
-        global $dbconn;
-        
-        $sql = "SELECT movie_category, 
-                COUNT(*) AS amount
-                FROM movie_table
-                GROUP BY movie_category
-                ORDER BY amount DESC";
-        
-        $stmt = $dbconn -> prepare($sql);
-        $stmt -> execute();
-        return $stmt->fetchAll();
-    }
+    
+   
 ?>
 <!DOCTYPE html>
 <html>
 
 <head>
 <style>
-#header {
-	border-bottom:solid 2px #f02323;
-    text-align:center;
-    padding:5px;
-    height: 60px;
-}
-#nav {
-    line-height:30px;
-    height:1100px;
-    width:220px;
-    float:left;
-    padding:5px;
-    border-right: thin solid pink;	      
-}
-#section {
-    width:1150px;
-    float:left;
-    padding:20px;	 	 
-}
-#footer {
-    background-color:black;
-    color:white;
-    clear:both;
-    text-align:center;
-   padding:5px;	 	 
-}
-div.logo {
-    float: left;
-    display: block;
-    padding-left: 20px;
-    padding-top: 10px
-}
-#logo {
-	width:150px;
-	float: left;
-}
-h2 {
-	text-align:center;
-}
-#welcome {
-	font-size: 36px;
-	color: red;
-	padding-right: 100px;
-	padding-top:7px;
-	
-}
-input.searchbar {
-    margin: 0;
-    padding: 5px 15px;
-    font-size: 14px;
-    border: 1px solid #f02323;
-    border-right: 0px;
-    border-top-left-radius: 5px 5px;
-    border-bottom-left-radius: 5px 5px;
-}
 
-input.searchButton {
-    margin: 0;
-    padding: 5px 15px;
-    font-size: 14px;
-    outline: none;
-    cursor: pointer;
-    text-decoration: none;
-    color: #fff;
-    border: #f02323;
-    background-color: #f02323;
-    border-top-right-radius: 5px 5px;
-    border-bottom-right-radius: 5px 5px;
-}
-input.searchButton:hover{
-    background-color: #F46060;
-}
-div.search {
-
-    padding-right: 20px;
-    line-height: 1.2;
-    float: right;
-    display: inline;
-    width: 70%;
-    min-width:500px;
-    text-align: right
-}
-
-</style>
 </head>
 
 <body>
