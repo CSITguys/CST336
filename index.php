@@ -41,6 +41,9 @@
     }
     function getMovieNames(){
         global $dbconn;
+        $condition = "WHERE " ;
+        while($filteritem = current($_GET)){
+        }
         
 		$sql = "SELECT rating, movie_category, release_date, movie_title, movie_id
 				FROM movie_table
@@ -181,8 +184,13 @@
         
         <div id=main>
             <div id="navbar">
+                
+                
                 <div id="links">
-                    Sign In<br>
+                    <?php
+                    echo "<h4>Welcome " . $_SESSION['fname'] . " ". substr($_SESSION['lname'], 0,1) ."</h4>"
+                    ?>
+                    <a href="signon.php">Sign In</a><br>
                     <a href = "http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/viewallMovies.php">View All Movies</a><br>View All Movies<br>
                     Return A Movie<br>
                     Manage My Account<br>
@@ -201,7 +209,7 @@
             </div>
             <div id="mainpage">
                 <?php
-                	$rows = 30;
+                    print_r($_GET);
 					$allmovies = getMovieNames();
                 	echo "<table border = \"1\">";
                 		echo "<tr>";
@@ -216,8 +224,8 @@
 						foreach ($allmovies as $movie) {
 							echo "<tr>";
                             
-							echo "<td>";
-                                echo '<a href="movie_detail.php?movie_id=' . $movie['movie_id'] . '">';
+							echo "<td class=movie_title>";
+                                echo '<a class="title_link "href="movie_detail.php?movie_id=' . $movie['movie_id'] . '">';
                                     echo  $movie['movie_title'];
                                 echo "</a>";
 							echo "</td>";
