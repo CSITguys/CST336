@@ -206,7 +206,7 @@
                 	is a menu of the options you have, please click "change password" to change the password for your account, or click "View All Transactions"
                 	to view all of the transactions made to this account.</p>
                  <span class="menuItem">Main Menu</span>&nbsp;&nbsp;&nbsp;&nbsp;
- 			  	 <span class="menuItem"><a href="statistics.html">Change Passowrd</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
+ 			  	 <span class="menuItem"><a href="changepassword.php">Change Password</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
   				 <span class="menuItem">View All Transactions</span>
             </div>
         </div>
