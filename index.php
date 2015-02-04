@@ -235,9 +235,9 @@
                     echo "<h4>Welcome " . $_SESSION['fname'] . " ". substr($_SESSION['lname'], 0,1) ."</h4>"
                     ?>
                     <a href="signon.php">Sign In</a><br>
-                    <a href = "http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/viewallMovies.php">View All Movies</a><br>View All Movies<br>
-                    Return A Movie<br>
-                    Manage My Account<br>
+                    <a href="returnmovie.php">Return A Movie</a><br>
+                    <a href="manageaccount.php">Manage Account</a><br>
+                    <a href="transactions.php">Order History</a><br>
                 <form method="post" action="signout.php" onsubmit="confirmLogout()">
                     <input type="submit" value="Sign Out" />
                 </form>
