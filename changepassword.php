@@ -101,8 +101,8 @@
 			SET new_password = :password
 			WHERE username = :email";
 	$stmt = $dbconn -> prepare($sql);
-	$stmt -> execute(array(":password"=>$_POST['new_password'],
-			)); 
+	$stmt -> execute(array(":password"=>('SHA1('. $_POST['new_password'].')'),
+			":email"=>$record['email'])); 
 
 	echo "PASSWORD UPDATED!! <br> <br>"; 
 	}
@@ -249,7 +249,7 @@
 					<p></p>
 				</form>
                  <span class="menuItem">Main Menu</span>&nbsp;&nbsp;&nbsp;&nbsp;
- 			  	 <span class="menuItem"><a href="http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/changepassword.php">Change Password</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
+ 			  	 <span class="menuItem"><a href="changepassword.php">Change Password</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
   				 <span class="menuItem">View All Transactions</span>
             </div>
         </div>
