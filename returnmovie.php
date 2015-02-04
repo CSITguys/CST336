@@ -101,10 +101,10 @@
 	if (isset($_POST['update'])) { //checks whether we're coming from "save data" form
 
 	$sql = "UPDATE transactions
-			SET returned = 1,
+			SET returned = 1
 			WHERE transaction_id = :transaction_id";
 	$stmt = $dbconn -> prepare($sql);
-	$stmt -> execute(array(":returned"=> 1,)); 
+	$stmt -> execute(array(':transaction_id'=> $_POST['transaction_id'])); 
 
 	echo "Movie Has Been Returned!! <br> <br>"; 
 	}
