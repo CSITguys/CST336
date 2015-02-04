@@ -1,5 +1,8 @@
 <?php
     session_start();
+    if(!isset($_SESSION['username'])){
+        header("Location: signon.php");
+    }
     require "connections.php";
     function get_description(){
         global $dbconn;
@@ -16,11 +19,17 @@
 
     function getLocations(){
         global $dbconn;
-        $sql = "SELECT locations.location_id, name, MIN(inventory_id)
+        $sql = "SELECT locations.location_id, name, MIN( inventory_id )
                 FROM locations
                 INNER JOIN inventory ON locations.location_id = inventory.location_id
                 WHERE inventory.movie_id =:movie_id
+                AND inventory_id NOT IN (
+                    SELECT transactions.inventory_id
+                    FROM transactions
+                    WHERE returned =0
+                )
                 GROUP BY name";
+        
         $stmt = $dbconn -> prepare($sql);
         $stmt -> execute(array(':movie_id'=>$_GET['movie_id']));
         return $stmt->fetchAll();
@@ -45,8 +54,8 @@
 		<meta name="description" content="">
 		<meta name="author" content="csitguys">
         <script>
-            function confirmRental(movie_title, location) {
-                var remove = confirm("Do you really want to rent " + movie_title + "From" + location + "?");
+            function confirmRental(movie_title) {
+                var remove = confirm("Do you really want to rent " + movie_title +"?");
                 if (!remove) {
                     event.preventDefault();
                 }
@@ -125,7 +134,7 @@
         </div>
         
         <div id=main>
-            <div id="genres">
+            <div id="navbar">
                 <ul>
                 <?php
                     //foreach($genres as $genre){
@@ -135,28 +144,40 @@
                 </ul>
                 <span class="clear"></span>
             </div>
+            <?php
+                $movie_title = $movie_details[0]['movie_title'];
+            ?>
             <div id="mainpage" class="description">
-                <h2><?php echo $movie_details[0]['movie_title'];?></h2>
+                <h2><?php echo $movie_title;?></h2>
                 <p class="description">
                     <?php 
                         echo $movie_details[0]['movie_description'];
-                        
                     ?>
                 </p>
-                <form method="post" action="rent.php" onsubmit="confirmRental('<?=$movie['movie_title']?>', 1)">
+                <?php 
+                    if(!empty($locations)){
+                  ?>     
+                    
+                <form method="post" action="rent.php" onsubmit="confirmRental('<?=$movie_title ?>')">
                     <select name="location">
                         <?php
                            
                             
                         
                             foreach($locations as $location){
-                                echo '<option value="'.$location['MIN(inventory_id)'].'">' . $location['name'] . '</option>';
+                                echo '<option value="'.$location[2].'">' . $location['name'] . '</option>';
                             }
                         ?>
                     </select>
+                    
 				    <input type = "submit" value = "Rent Now">
+                      
 				</form>
-                
+                <?php
+                    }else{
+                        echo "<p>Movie Not in stock. </p>";
+                    }
+                ?>
             </div>
         </div>
         
