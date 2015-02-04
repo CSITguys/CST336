@@ -151,7 +151,7 @@ form.searchForm {
 
 
 /*sideBar*/
-#genres{
+#navbar{
     font-size: 14px;
     width: 160px;
     padding-top: 60px;
@@ -184,6 +184,7 @@ li{
     padding-top: 0;
     padding-bottom: 60px;
     float: right;
+    margin-bottom: 60px;
     margin-left: 170px;
 }
 
