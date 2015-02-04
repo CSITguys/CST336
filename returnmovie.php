@@ -76,6 +76,7 @@
         
     }
 	function getrentedmovies () {
+		global $dbconn;
 		if (isset ($_SESSION['user_id'])) {
 	
 			$sql = "SELECT transaction_id, date, returned*
