@@ -3,7 +3,7 @@
     if(!isset($_SESSION['username'])){
         header("Location: signon.php");
     }
-    require "db_connection.php";
+    require "connections.php";
     function getReleaseDate(){
         global $dbconn;
         $sql = "SELECT DISTINCT release_date
@@ -77,14 +77,14 @@
     }
 	if (isset($_POST['username'])) {
 	require 'db_connection.php';
-	global $dbConn;
+	global $dbconn;
 	
 	$sql = "SELECT *
 			FROM users
 			WHERE username = :email
 			AND password = :password";
 			
-	$stmt = $dbConn -> prepare($sql);
+	$stmt = $dbconn -> prepare($sql);
 	$stmt -> execute(array(":email" => $_POST['username'], ":password" => hash("sha1", $_POST['password'])));
 	
 	$record = $stmt -> fetch();
@@ -98,9 +98,9 @@
 		if (isset($_POST['new_password'])) {
 
 	$sql = "UPDATE users
-			SET new_password = :password,
+			SET new_password = :password
 			WHERE username = :email";
-	$stmt = $dbConn -> prepare($sql);
+	$stmt = $dbconn -> prepare($sql);
 	$stmt -> execute(array(":password"=>$_POST['new_password'],
 			)); 
 
