@@ -79,7 +79,7 @@
 		global $dbconn;
 		if (isset ($_SESSION['user_id'])) {
 	
-			$sql = "SELECT transaction_id, date, returned
+			$sql = "SELECT transaction_id, dates, returned
 					FROM transactions
 					WHERE customer_id = :customer_id, returned = 0";
 			$stmt = $dbconn -> prepare($sql);
