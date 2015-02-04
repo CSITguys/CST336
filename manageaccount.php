@@ -3,7 +3,7 @@
     if(!isset($_SESSION['username'])){
         header("Location: signon.php");
     }
-    require "db_connection.php";
+    require "connections.php";
     function getReleaseDate(){
         global $dbconn;
         $sql = "SELECT DISTINCT release_date
@@ -102,7 +102,7 @@
 		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-        <link type="text/css" rel="stylesheet" href="mystyles1.css">
+        <link type="text/css" rel="stylesheet" href="style.css">
         <script>
             function confirmRental(movie_title, location) {
                 var remove = confirm("Do you really want to rent " + movie_title + "From" + location + "?");
@@ -180,14 +180,17 @@
         <div id=main>
             <div id="navbar">
                 <div id="links">
-                    Sign In<br>
-                    <a href = "http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/viewallMovies.php">View All Movies</a><br>View All Movies<br>
-                    Return A Movie<br>
-                    Manage My Account<br>
-                <form method="post" action="signout.php" onsubmit="confirmLogout()">
-                    <input type="submit" value="Sign Out" />
-                </form>
-                </div>
+			<?php
+			echo "<h4>Welcome " . $_SESSION['fname'] . " ". substr($_SESSION['lname'], 0,1) ."</h4>"
+			?>
+			<a href="signon.php">Sign In</a><br>
+			<a href="returnmovie.php">Return A Movie</a><br>
+			<a href="manageaccount.php">Manage Account</a><br>
+			<a href="transactions.php">Order History</a><br>
+			<form method="post" action="signout.php" onsubmit="confirmLogout()">
+				<input type="submit" value="Sign Out" />
+			</form>
+		</div>
                 <ul>
                 <?php
                     foreach($genres as $genre){
