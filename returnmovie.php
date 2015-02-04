@@ -45,6 +45,7 @@
         return $stmt->fetchAll();
 	}
 	function getName($invId){
+		global $dbconn;
 		$sql = "SELECT movie_title
 	                FROM movie_table
 	                INNER JOIN inventory 
@@ -89,7 +90,7 @@
 		global $dbconn;
 		if (isset ($_SESSION['user_id'])) {
 	
-			$sql = "SELECT transaction_id, dates, returned
+			$sql = "SELECT transaction_id, dates, returned, inventory_id
 					FROM transactions
 					WHERE customer_id = :customer_id AND returned = 0";
 			$stmt = $dbconn -> prepare($sql);
@@ -248,6 +249,7 @@
 			<?php
 		echo "</tr>";
 				foreach ($moviesrented as $movie) {
+					$name = getName($movie['inventory_id'])
 					echo "<tr>";
 					echo "<td>";
 						echo "<option value='" . $movie['transaction_id'] . "' >" . $movie['transaction_id']. "</option>";
@@ -256,7 +258,7 @@
 						echo "<option value='" . $movie['dates'] . "' >" . $movie['date']. "</option>";
 					echo "</td>";
 					echo "<td>";
-						echo "<option value='" . getName($movie['inventory_id']) . "' >" . $movie['inventory_id']. "</option>";
+						echo "<option value='" . $name['movie_title']. "' >" . $name['movie_title'].. "</option>";
 					echo "</td>";
 					echo "<td>";
 						
