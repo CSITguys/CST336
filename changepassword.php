@@ -3,7 +3,7 @@
     if(!isset($_SESSION['username'])){
         header("Location: signon.php");
     }
-    require "connections.php";
+    require "db_connection.php";
     function getReleaseDate(){
         global $dbconn;
         $sql = "SELECT DISTINCT release_date
@@ -96,14 +96,12 @@
 		$_SESSION['username'] = $record['email'];
 		$_SESSION['name'] = $record['firstname']." ".$record['lastname'];*/
 	if (isset($_POST['new_password'])) {
-
 	$sql = "UPDATE users
 			SET password = :password
 			WHERE email = :email";
 	$stmt = $dbconn -> prepare($sql);
 	$stmt -> execute(array(":password"=>('SHA1('. $_POST['new_password'].')'),
 			":email"=>$record['email'])); 
-
 	echo "PASSWORD UPDATED!! <br> <br>"; 
 	
 		header("Location: index.php");
@@ -136,7 +134,7 @@
 		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-        <link type="text/css" rel="stylesheet" href="style.css">
+        <link type="text/css" rel="stylesheet" href="mystyles1.css">
         <script>
             function confirmRental(movie_title, location) {
                 var remove = confirm("Do you really want to rent " + movie_title + "From" + location + "?");
@@ -248,9 +246,10 @@
 					<input type = "submit" value = "Login" />
 					<p></p>
 				</form>
-                 <span class="menuItem">Main Menu</span>&nbsp;&nbsp;&nbsp;&nbsp;
- 			  	 <span class="menuItem"><a href="changepassword.php">Change Password</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
-  				 <span class="menuItem">View All Transactions</span>
+                 <span class="menuItem"><a href = "http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/mangeaccount.php"?>Main Menu</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
+ 			  	 <span class="menuItem"><a href="http://hosting.csumb.edu/powellphillipl/CST336/Group%20Project/changepassword.php">Change Password</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
+ 			  	  <span class="menuItem"><a href="http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/useractivity.php">User Activity</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
+  				 <span class="menuItem"><a href = "http://hosting.otterlabs.org/powellphillipl/CST336/Group%20Project/transactions.php">View All Transactions</a></span>
             </div>
         </div>
         
