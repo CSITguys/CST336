@@ -81,7 +81,7 @@
 			$sql = "SELECT transaction_id, date, returned*
 					FROM transactions
 					WHERE customer_Id = :customer_id, returned = 0";
-			$stmt = $dbConn -> prepare($sql);
+			$stmt = $dbconn -> prepare($sql);
 			$stmt -> execute(array(':customer_id'=>$_SESSION['user_id']));
 			$stadiumInfo = $stmt -> fetch();
 		}
