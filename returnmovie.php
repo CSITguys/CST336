@@ -3,7 +3,7 @@
     if(!isset($_SESSION['username'])){
         header("Location: signon.php");
     }
-    require "db_connection.php";
+    require "connections.php";
     function getReleaseDate(){
         global $dbconn;
         $sql = "SELECT DISTINCT release_date
