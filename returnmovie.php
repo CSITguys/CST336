@@ -249,7 +249,7 @@
 			<?php
 		echo "</tr>";
 				foreach ($moviesrented as $movie) {
-					$name = getName($movie['inventory_id'])
+					$name = getName($movie['inventory_id']);
 					echo "<tr>";
 					echo "<td>";
 						echo "<option value='" . $movie['transaction_id'] . "' >" . $movie['transaction_id']. "</option>";
