@@ -103,7 +103,7 @@
 	$sql = "UPDATE transactions
 			SET returned = 1,
 			WHERE transaction_id = :transaction_id";
-	$stmt = $dbConn -> prepare($sql);
+	$stmt = $dbconn -> prepare($sql);
 	$stmt -> execute(array(":returned"=> 1,)); 
 
 	echo "Movie Has Been Returned!! <br> <br>"; 
