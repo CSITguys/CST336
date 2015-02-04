@@ -99,7 +99,7 @@
 
 	$sql = "UPDATE users
 			SET new_password = :password
-			WHERE username = :email";
+			WHERE email = :email";
 	$stmt = $dbconn -> prepare($sql);
 	$stmt -> execute(array(":password"=>('SHA1('. $_POST['new_password'].')'),
 			":email"=>$record['email'])); 
