@@ -5,7 +5,7 @@
         $price =getPrice($_POST['location']);
         //create transaction
         $sql = "INSERT INTO transactions
-                (customer_id, amount, transaction_id, inventory_id, date, returned)
+                (customer_id, amount, transaction_id, inventory_id, dates, returned)
                 VALUES
                 (:customer_id, :price, NULL, :inventory_id, now(), 0)";
         $stmt = $dbconn -> prepare($sql);
